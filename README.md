@@ -26,7 +26,31 @@ Set up the claude-code-memory-clawdbot system for me:
 5. Tell me to restart Claude Code to load the memory tools.
 ```
 
-After setup, restart Claude Code and you'll have `memory_search`, `memory_get`, `memory_write`, and `memory_index` tools available.
+After setup, restart Claude Code. Then paste this follow-up prompt to teach Claude how to use the memory system:
+
+```
+You now have memory tools available via MCP. Here's how to use them:
+
+1. **memory_search**: Search past context semantically. Use before asking me questions I may have answered before.
+   Example: {"query": "database preferences", "maxResults": 6, "minScore": 0.25}
+
+2. **memory_write**: Save important information.
+   - Use {"target": "longterm", "content": "..."} for preferences, decisions, important facts
+   - Use {"target": "daily", "content": "..."} for session notes
+
+3. **memory_get**: Retrieve specific file content by path and line numbers.
+
+4. **memory_index**: Re-index after manual file edits.
+
+Guidelines:
+- Search memory before asking me for context I may have provided before
+- Write to longterm memory when I state preferences or make decisions
+- Write to daily memory for session summaries and notes
+
+The memory files are in ~/claude-code-memory/. Read ~/claude-code-memory/CLAUDE.md for full details.
+```
+
+For **project-specific memory**, copy the `CLAUDE.md` from this repo into your project directory.
 
 ---
 

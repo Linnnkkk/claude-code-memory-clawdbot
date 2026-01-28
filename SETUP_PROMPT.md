@@ -28,30 +28,28 @@ Set up the claude-code-memory-clawdbot system for me:
 
 Close and reopen Claude Code to load the MCP server.
 
-## Step 3: Teach Claude the Memory System
+## Step 3: Activate Memory System
 
 Paste this into the new session:
 
 ```
-You now have memory tools available via MCP. Here's how to use them:
+You have persistent memory tools via MCP. You MUST actively use them - not just acknowledge information.
 
-1. **memory_search**: Search past context semantically. Use before asking me questions I may have answered before.
-   Example: {"query": "database preferences", "maxResults": 6, "minScore": 0.25}
+REQUIRED BEHAVIORS:
+1. When I state a preference, fact about me, or make a decision → IMMEDIATELY call memory_write (don't just say "noted")
+2. When I ask about past discussions or context → FIRST call memory_search before answering
+3. At session end or major milestones → call memory_write to log what we accomplished
 
-2. **memory_write**: Save important information.
-   - Use {"target": "longterm", "content": "..."} for preferences, decisions, important facts
-   - Use {"target": "daily", "content": "..."} for session notes
+TOOLS:
+- memory_write: {"target": "longterm", "content": "## Preferences\n- likes dark themes"} — for permanent info
+- memory_write: {"target": "daily", "content": "## Session\n- built auth system"} — for session logs
+- memory_search: {"query": "user preferences", "maxResults": 6, "minScore": 0.25}
+- memory_get: {"path": "memory/2026-01-28.md", "from": 1, "lines": 50}
+- memory_index: {"rebuild": false}
 
-3. **memory_get**: Retrieve specific file content by path and line numbers.
+IMPORTANT: Actually CALL the tools. Saying "I'll remember that" without calling memory_write means it will be lost.
 
-4. **memory_index**: Re-index after manual file edits.
-
-Guidelines:
-- Search memory before asking me for context I may have provided before
-- Write to longterm memory when I state preferences or make decisions
-- Write to daily memory for session summaries and notes
-
-Confirm you understand by searching memory for "test" to verify the tools work.
+Confirm tools work: call memory_search with query "test" RIGHT NOW.
 ```
 
 ---

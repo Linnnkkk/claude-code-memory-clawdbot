@@ -2,6 +2,34 @@
 
 Local, persistent memory system for Claude Code inspired by [Clawdbot's memory architecture](https://manthanguptaa.in/posts/clawdbot_memory/).
 
+## One-Click Setup (Recommended)
+
+Just paste this prompt into Claude Code and it will do everything for you:
+
+```
+Set up the claude-code-memory-clawdbot system for me:
+
+1. Clone: git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
+2. Run setup: cd ~/claude-code-memory && ./setup.sh
+3. Add the memory MCP server to ~/.config/claude-code/.mcp.json (create if needed, merge if exists):
+   {
+     "mcpServers": {
+       "memory": {
+         "command": "<HOME>/claude-code-memory/.venv/bin/python",
+         "args": ["<HOME>/claude-code-memory/scripts/mcp_server.py"],
+         "cwd": "<HOME>/claude-code-memory"
+       }
+     }
+   }
+   Replace <HOME> with my actual home directory path.
+4. Verify: python ~/claude-code-memory/scripts/session.py status
+5. Tell me to restart Claude Code to load the memory tools.
+```
+
+After setup, restart Claude Code and you'll have `memory_search`, `memory_get`, `memory_write`, and `memory_index` tools available.
+
+---
+
 ## Features
 
 - **Two-layer storage**: Daily logs + curated long-term memory

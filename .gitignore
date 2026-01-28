@@ -1,0 +1,25 @@
+# Database
+db/*.db
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Daily logs and session files (personal data)
+memory/*.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Keep directories
+!memory/.gitkeep
+!db/.gitkeep
+*.db

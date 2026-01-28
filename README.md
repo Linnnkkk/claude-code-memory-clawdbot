@@ -22,8 +22,8 @@ Local, persistent memory system for Claude Code inspired by [Clawdbot's memory a
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/claude-code-memory.git
-cd claude-code-memory
+git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git
+cd claude-code-memory-clawdbot
 
 # Run setup
 ./setup.sh

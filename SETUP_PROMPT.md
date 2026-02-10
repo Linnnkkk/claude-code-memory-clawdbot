@@ -7,7 +7,7 @@
 ```
 为我设置 claude-code-memory-clawdbot 系统：
 
-1. 克隆：git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
+1. 克隆：git clone https://github.com/Linnnkkk/claude-code-memory-clawdbot.git ~/claude-code-memory
 2. 运行设置：cd ~/claude-code-memory && ./setup.sh
 3. 将记忆 MCP 服务器添加到 ~/.config/claude-code/.mcp.json（如果不存在则创建，如果存在则合并）：
    {
@@ -65,7 +65,7 @@
 ```
 设置 claude-code-memory-clawdbot 并教会你自己如何使用它：
 
-1. 克隆：git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
+1. 克隆：git clone https://github.com/Linnnkkk/claude-code-memory-clawdbot.git ~/claude-code-memory
 2. 设置：cd ~/claude-code-memory && ./setup.sh
 3. 在 ~/.config/claude-code/.mcp.json 中配置 MCP：
    {"mcpServers":{"memory":{"command":"<HOME>/claude-code-memory/.venv/bin/python","args":["<HOME>/claude-code-memory/scripts/mcp_server.py"],"cwd":"<HOME>/claude-code-memory"}}}

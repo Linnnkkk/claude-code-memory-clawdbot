@@ -1,15 +1,15 @@
-# Setup Prompts
+# 设置提示词
 
-## Step 1: Installation
+## 第一步：安装
 
-Paste this into Claude Code to install the memory system:
+将此粘贴到 Claude Code 中以安装记忆系统：
 
 ```
-Set up the claude-code-memory-clawdbot system for me:
+为我设置 claude-code-memory-clawdbot 系统：
 
-1. Clone: git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
-2. Run setup: cd ~/claude-code-memory && ./setup.sh
-3. Add the memory MCP server to ~/.config/claude-code/.mcp.json (create if needed, merge if exists):
+1. 克隆：git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
+2. 运行设置：cd ~/claude-code-memory && ./setup.sh
+3. 将记忆 MCP 服务器添加到 ~/.config/claude-code/.mcp.json（如果不存在则创建，如果存在则合并）：
    {
      "mcpServers": {
        "memory": {
@@ -19,57 +19,57 @@ Set up the claude-code-memory-clawdbot system for me:
        }
      }
    }
-   Replace <HOME> with my actual home directory path.
-4. Verify: python ~/claude-code-memory/scripts/session.py status
-5. Tell me to restart Claude Code to load the memory tools.
+   将 <HOME> 替换为我实际的用户主目录路径。
+4. 验证：python ~/claude-code-memory/scripts/session.py status
+5. 告诉我重启 Claude Code 以加载记忆工具。
 ```
 
-## Step 2: Restart Claude Code
+## 第二步：重启 Claude Code
 
-Close and reopen Claude Code to load the MCP server.
+关闭并重新打开 Claude Code 以加载 MCP 服务器。
 
-## Step 3: Activate Memory System
+## 第三步：激活记忆系统
 
-Paste this into the new session:
+将此粘贴到新会话中：
 
 ```
-You have persistent memory tools via MCP. You MUST actively use them - not just acknowledge information.
+你已通过 MCP 拥有持久性记忆工具。你必须积极使用它们——不能只是确认信息。
 
-REQUIRED BEHAVIORS:
-1. When I state a preference, fact about me, or make a decision → IMMEDIATELY call memory_write (don't just say "noted")
-2. When I ask about past discussions or context → FIRST call memory_search before answering
-3. At session end or major milestones → call memory_write to log what we accomplished
+必需行为：
+1. 当我陈述偏好、关于我的事实或做出决定时 → 立即调用 memory_write（不要只说“已记下”）
+2. 当我询问过去的讨论或上下文时 → 在回答之前首先调用 memory_search
+3. 在会话结束或主要里程碑时 → 调用 memory_write 记录我们完成的工作
 
-TOOLS:
-- memory_write: {"target": "longterm", "content": "## Preferences\n- likes dark themes"} — for permanent info
-- memory_write: {"target": "daily", "content": "## Session\n- built auth system"} — for session logs
-- memory_search: {"query": "user preferences", "maxResults": 6, "minScore": 0.25}
+工具：
+- memory_write: {"target": "longterm", "content": "## 偏好\n- 喜欢深色主题"} — 用于永久性信息
+- memory_write: {"target": "daily", "content": "## 会话\n- 构建了认证系统"} — 用于会话日志
+- memory_search: {"query": "用户偏好", "maxResults": 6, "minScore": 0.25}
 - memory_get: {"path": "memory/2026-01-28.md", "from": 1, "lines": 50}
 - memory_index: {"rebuild": false}
 
-IMPORTANT: Actually CALL the tools. Saying "I'll remember that" without calling memory_write means it will be lost.
+重要提示：务必实际调用这些工具。只说“我会记住”而不调用 memory_write 意味着信息将会丢失。
 
-Confirm tools work: call memory_search with query "test" RIGHT NOW.
+确认工具工作：立即调用 memory_search，查询 "test"。
 ```
 
 ---
 
-## Alternative: Project-Specific Setup
+## 替代方案：项目特定设置
 
-If you want memory instructions built into a specific project, copy `CLAUDE.md` from this repo into your project's root directory. Claude Code will automatically read it.
+如果你想将记忆指令内置到特定项目中，请将此仓库中的 `CLAUDE.md` 文件复制到你项目的根目录。Claude Code 会自动读取它。
 
-## Combined Single Prompt (Advanced)
+## 组合单条提示词（高级）
 
-For users who want a single prompt that does everything including teaching Claude:
+适用于希望一条提示词完成所有操作（包括教给 Claude）的用户：
 
 ```
-Set up claude-code-memory-clawdbot and teach yourself how to use it:
+设置 claude-code-memory-clawdbot 并教会你自己如何使用它：
 
-1. Clone: git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
-2. Setup: cd ~/claude-code-memory && ./setup.sh
-3. Configure MCP in ~/.config/claude-code/.mcp.json:
+1. 克隆：git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
+2. 设置：cd ~/claude-code-memory && ./setup.sh
+3. 在 ~/.config/claude-code/.mcp.json 中配置 MCP：
    {"mcpServers":{"memory":{"command":"<HOME>/claude-code-memory/.venv/bin/python","args":["<HOME>/claude-code-memory/scripts/mcp_server.py"],"cwd":"<HOME>/claude-code-memory"}}}
-   (Replace <HOME> with actual home path, merge with existing config if present)
-4. Read ~/claude-code-memory/CLAUDE.md to understand the memory system
-5. Tell me to restart Claude Code, then after restart I should paste a follow-up prompt you provide to activate memory usage
+   （将 <HOME> 替换为实际的主目录路径，如果已有配置则合并）
+4. 阅读 ~/claude-code-memory/CLAUDE.md 以了解记忆系统
+5. 告诉我重启 Claude Code，重启后我应该粘贴你提供的后续提示词来激活记忆使用
 ```

@@ -1,27 +1,27 @@
-# Long-Term Memory
+# 长期记忆
 
-This file contains curated, important information that should persist across all sessions.
+此文件包含精选的、重要的信息，应在所有会话中持久保存。
 
-## User Preferences
+## 用户偏好
 
-- [Add important preferences here as you discover them]
+- [在此添加重要偏好，当你发现它们时]
 
-## Technical Decisions
+## 技术决策
 
-- [Record significant technical decisions and their rationale]
+- [记录重要的技术决策及其理由]
 
-## Project Context
+## 项目背景
 
-- [Important context about ongoing projects]
+- [关于正在进行项目的重要背景]
 
-## Important References
+## 重要参考
 
-- [Links, contacts, or resources that are frequently needed]
+- [经常需要的链接、联系人或资源]
 
-## Lessons Learned
+## 学到的经验
 
-- [Mistakes to avoid, patterns that work well]
+- [要避免的错误、行之有效的模式]
 
 ---
 
-*This file is for curated, long-term knowledge. Use daily logs for session notes.*
+*此文件用于精选的长期知识。使用每日日志记录会话笔记。*

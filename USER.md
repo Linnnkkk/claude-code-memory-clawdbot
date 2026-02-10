@@ -1,35 +1,35 @@
-# User
+# 用户
 
-This file stores information about the user to provide personalized assistance.
+此文件存储关于用户的信息，以提供个性化帮助。
 
-## Profile
+## 资料
 
-- **Name**: [Your name]
-- **OS**: [Your OS]
-- **Location**: [Optional]
+- **姓名**：[你的姓名]
+- **操作系统**：[你的操作系统]
+- **位置**：[可选]
 
-## Preferences
+## 偏好
 
-- [Add your preferences here]
-- Example: Prefers local solutions over cloud services
-- Example: Values simplicity over complexity
+- [在此添加你的偏好]
+- 示例：比起云服务更偏好本地解决方案
+- 示例：重视简洁而非复杂
 
-## Technical Context
+## 技术背景
 
-- [Your tech stack]
-- Example: Uses Python and TypeScript
-- Example: Familiar with Docker, PostgreSQL
+- [你的技术栈]
+- 示例：使用 Python 和 TypeScript
+- 示例：熟悉 Docker、PostgreSQL
 
-## Working Style
+## 工作风格
 
-- [How you like to work]
-- Example: Prefers iterative development
-- Example: Likes to understand the "why" behind decisions
+- [你喜欢的工作方式]
+- 示例：偏好迭代开发
+- 示例：喜欢理解决策背后的"为什么"
 
-## Projects & Interests
+## 项目和兴趣
 
-- [Current projects or areas of interest]
+- [当前项目或感兴趣的领域]
 
 ---
 
-*Update this file as you learn more about yourself or your preferences change.*
+*随着你更多地了解自己或偏好改变，更新此文件。*

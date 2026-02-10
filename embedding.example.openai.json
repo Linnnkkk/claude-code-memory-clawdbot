@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "base_url": "https://api.openai.com/v1/embeddings",
+  "model": "text-embedding-3-small",
+  "api_key": "sk-your-openai-api-key-here"
+}

@@ -1,17 +1,17 @@
-# Claude Code Memory
+# Claude 代码记忆系统
 
-Local, persistent memory system for Claude Code inspired by [Clawdbot's memory architecture](https://manthanguptaa.in/posts/clawdbot_memory/).
+受 [Clawdbot 的记忆架构](https://manthanguptaa.in/posts/clawdbot_memory/)启发的 Claude Code 本地持久化记忆系统。
 
-## One-Click Setup (Recommended)
+## 一键安装（推荐）
 
-Just paste this prompt into Claude Code and it will do everything for you:
+只需将以下提示词粘贴到 Claude Code 中，它将自动完成所有设置：
 
 ```
-Set up the claude-code-memory-clawdbot system for me:
+帮我设置 claude-code-memory-clawdbot 系统：
 
-1. Clone: git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git ~/claude-code-memory
-2. Run setup: cd ~/claude-code-memory && ./setup.sh
-3. Add the memory MCP server to ~/.config/claude-code/.mcp.json (create if needed, merge if exists):
+1. 克隆：git clone https://github.com/Linnnkkk/claude-code-memory-clawdbot.git ~/claude-code-memory
+2. 运行安装：cd ~/claude-code-memory && ./setup.sh
+3. 将记忆 MCP 服务器添加到 ~/.config/claude-code/.mcp.json（如果不存在则创建，如果已存在则合并）：
    {
      "mcpServers": {
        "memory": {
@@ -21,80 +21,140 @@ Set up the claude-code-memory-clawdbot system for me:
        }
      }
    }
-   Replace <HOME> with my actual home directory path.
-4. Verify: python ~/claude-code-memory/scripts/session.py status
-5. Tell me to restart Claude Code to load the memory tools.
+   将 <HOME> 替换为你的实际主目录路径。
+4. 验证：python ~/claude-code-memory/scripts/session.py status
+5. 告诉我重启 Claude Code 以加载记忆工具。
 ```
 
-After setup, restart Claude Code. Then paste this follow-up prompt to activate the memory system:
+安装完成后，重启 Claude Code。然后粘贴以下后续提示词以激活记忆系统：
 
 ```
-You have persistent memory tools via MCP. You MUST actively use them - not just acknowledge information.
+你通过 MCP 拥有了持久化记忆工具。你必须主动使用它们——而不仅仅是确认信息。
 
-REQUIRED BEHAVIORS:
-1. When I state a preference, fact about me, or make a decision → IMMEDIATELY call memory_write (don't just say "noted")
-2. When I ask about past discussions or context → FIRST call memory_search before answering
-3. At session end or major milestones → call memory_write to log what we accomplished
+必需行为：
+1. 当我说明偏好、关于我的事实或做出决定时 → 立即调用 memory_write（不要只说"已记录"）
+2. 当我询问过去的讨论或上下文时 → 在回答之前先调用 memory_search
+3. 在会话结束或重要里程碑时 → 调用 memory_write 记录我们完成的工作
 
-TOOLS:
-- memory_write: {"target": "longterm", "content": "## Preferences\n- likes dark themes"} — for permanent info
-- memory_write: {"target": "daily", "content": "## Session\n- built auth system"} — for session logs
+工具：
+- memory_write: {"target": "longterm", "content": "## Preferences\n- likes dark themes"} — 用于永久信息
+- memory_write: {"target": "daily", "content": "## Session\n- built auth system"} — 用于会话日志
 - memory_search: {"query": "user preferences", "maxResults": 6, "minScore": 0.25}
 - memory_get: {"path": "memory/2026-01-28.md", "from": 1, "lines": 50}
 - memory_index: {"rebuild": false}
 
-IMPORTANT: Actually CALL the tools. Saying "I'll remember that" without calling memory_write means it will be lost.
+重要：实际调用这些工具。如果不说"我会记住这个"而不调用 memory_write，信息将会丢失。
 
-Confirm tools work: call memory_search with query "test" RIGHT NOW.
+确认工具正常工作：立即使用查询"test"调用 memory_search。
 ```
 
-For **project-specific memory**, copy the `CLAUDE.md` from this repo into your project directory.
+对于**特定项目的记忆**，将此仓库中的 `CLAUDE.md` 复制到你的项目目录中。
 
 ---
 
-## Features
+## 功能特性
 
-- **Two-layer storage**: Daily logs + curated long-term memory
-- **Semantic search**: Vector embeddings via Ollama (local, free)
-- **Hybrid search**: 70% vector similarity + 30% BM25 keyword matching
-- **MCP integration**: Memory tools available directly in Claude Code
-- **Session management**: Track sessions with descriptive filenames
-- **Bootstrap files**: Personality, user info, and tool guidance
+- **双层存储**：每日日志 + 精选长期记忆
+- **语义搜索**：支持多种嵌入 API（Ollama、OpenAI、自定义）
+- **混合搜索**：70% 向量相似度 + 30% BM25 关键词匹配
+- **灵活配置**：支持自定义 BASE_URL、API Key 和 Model
+- **MCP 集成**：记忆工具直接在 Claude Code 中可用
+- **会话管理**：使用描述性文件名跟踪会话
+- **引导文件**：个性、用户信息和工具指导
 
-## Requirements
+## 系统要求
 
-- macOS or Linux
+- macOS 或 Linux
 - Python 3.10+
-- [Ollama](https://ollama.ai) (for local embeddings)
+- **嵌入 API**（选择其一）：
+  - [Ollama](https://ollama.ai)（本地、免费，推荐）
+  - OpenAI API（需要 API Key）
+  - 其他 OpenAI 兼容的嵌入 API
 - Claude Code
 
-## Quick Start
+## 快速开始
 
 ```bash
-# Clone the repo
-git clone https://github.com/JustinPerea/claude-code-memory-clawdbot.git
+# 克隆仓库
+git clone https://github.com/Linnnkkk/claude-code-memory-clawdbot.git
 cd claude-code-memory-clawdbot
 
-# Run setup
+# 运行安装脚本（交互式配置）
 ./setup.sh
 
-# Or manual setup:
+# 或手动安装：
 python3 -m venv .venv
 source .venv/bin/activate
 pip install watchdog
+```
 
-# Install Ollama and pull embedding model
+### 配置嵌入 API
+
+系统支持以下嵌入 API：
+
+#### 选项 1：Ollama（默认，推荐）
+
+```bash
+# 安装 Ollama
 brew install ollama
 brew services start ollama
-ollama pull nomic-embed-text
 
-# Initialize database
+# 拉取嵌入模型
+ollama pull nomic-embed-text
+```
+
+配置文件 `.config/embedding.json`：
+```json
+{
+  "provider": "ollama",
+  "base_url": "http://localhost:11434/api/embeddings",
+  "model": "nomic-embed-text",
+  "api_key": ""
+}
+```
+
+#### 选项 2：OpenAI
+
+创建或编辑 `.config/embedding.json`：
+```json
+{
+  "provider": "openai",
+  "base_url": "https://api.openai.com/v1/embeddings",
+  "model": "text-embedding-3-small",
+  "api_key": "sk-your-openai-api-key-here"
+}
+```
+
+#### 选项 3：自定义 OpenAI 兼容 API
+
+支持任何兼容 OpenAI API 格式的服务（如本地 LLM 服务、第三方 API 等）：
+
+```json
+{
+  "provider": "openai-compatible",
+  "base_url": "https://your-api-endpoint.com/v1/embeddings",
+  "model": "your-model-name",
+  "api_key": "your-api-key-if-needed"
+}
+```
+
+**配置说明**：
+- 配置文件位置：`.config/embedding.json`（项目根目录）
+- 如果配置文件不存在，系统将使用默认的 Ollama 配置
+- 示例配置文件：`embedding.example.ollama.json`、`embedding.example.openai.json`
+- 修改配置后建议运行 `python scripts/index.py --rebuild` 重新索引
+
+### 初始化数据库
+
+```bash
 python scripts/index.py
 ```
 
-## Configure MCP Server
+首次运行时会显示当前配置信息，然后开始索引。
 
-Add to `~/.config/claude-code/.mcp.json`:
+## 配置 MCP 服务器
+
+将以下内容添加到 `~/.config/claude-code/.mcp.json`：
 
 ```json
 {
@@ -108,140 +168,172 @@ Add to `~/.config/claude-code/.mcp.json`:
 }
 ```
 
-Replace `/path/to/claude-code-memory` with your actual path.
+将 `/path/to/claude-code-memory` 替换为你的实际路径。
 
-**Restart Claude Code** to load the MCP server.
+**重启 Claude Code** 以加载 MCP 服务器。
 
-## MCP Tools
+## MCP 工具
 
-Once configured, these tools are available in Claude Code:
+配置完成后，以下工具将在 Claude Code 中可用：
 
-| Tool | Description |
+| 工具 | 描述 |
 |------|-------------|
-| `memory_search` | Semantic + keyword search |
-| `memory_get` | Retrieve specific file content |
-| `memory_write` | Write to daily or long-term memory |
-| `memory_index` | Trigger re-indexing |
+| `memory_search` | 语义 + 关键词搜索 |
+| `memory_get` | 检索特定文件内容 |
+| `memory_write` | 写入每日或长期记忆 |
+| `memory_index` | 触发重新索引 |
 
-### Examples
+### 使用示例
 
 ```json
-// Search memories
-{"query": "database decision", "maxResults": 6, "minScore": 0.25}
+// 搜索记忆
+{"query": "数据库决策", "maxResults": 6, "minScore": 0.25}
 
-// Get specific content
+// 获取特定内容
 {"path": "memory/2026-01-28.md", "from": 10, "lines": 20}
 
-// Write to memory
-{"target": "longterm", "content": "## Decision\nChose PostgreSQL..."}
+// 写入记忆
+{"target": "longterm", "content": "## 决策\n选择了 PostgreSQL..."}
 
-// Re-index
+// 重新索引
 {"rebuild": false}
 ```
 
-## CLI Tools
+## 命令行工具
 
 ```bash
-# Check system status
+# 检查系统状态
 python scripts/session.py status
 
-# Check bootstrap files
+# 检查引导文件
 python scripts/session.py bootstrap
 
-# Start new session section
-python scripts/session.py new "Working on feature X"
+# 开始新的会话部分
+python scripts/session.py new "正在开发功能 X"
 
-# Quick save to daily log
-python scripts/session.py flush "Important note here"
+# 快速保存到每日日志
+python scripts/session.py flush "重要笔记"
 
-# End session with descriptive filename
-python scripts/session.py end "Summary of what was done"
-python scripts/session.py end --slug "api-design" "Designed REST API..."
+# 使用描述性文件名结束会话
+python scripts/session.py end "完成工作摘要"
+python scripts/session.py end --slug "api-design" "设计了 REST API..."
 
-# Search memories
-python scripts/search.py "your query here"
+# 搜索记忆
+python scripts/search.py "你的查询内容"
 
-# Manual index
+# 手动索引
 python scripts/index.py
 
-# File watcher (auto-index on changes)
+# 重建索引（更改配置后使用）
+python scripts/index.py --rebuild
+
+# 文件监视器（文件更改时自动索引）
 python scripts/watcher.py
 ```
 
-## File Structure
+## 文件结构
 
 ```
 claude-code-memory/
-├── CLAUDE.md              # Agent instructions
-├── SOUL.md                # Personality/tone (customize)
-├── USER.md                # User info (customize)
-├── TOOLS.md               # Tool guidance
-├── MEMORY.md              # Long-term curated knowledge
-├── memory/                # Daily logs
+├── CLAUDE.md                      # AI 助手指令
+├── SOUL.md                        # 个性/语气（可自定义）
+├── USER.md                        # 用户信息（可自定义）
+├── TOOLS.md                       # 工具使用指导
+├── MEMORY.md                      # 长期精选知识
+├── memory/                        # 每日日志
 │   └── YYYY-MM-DD.md
 ├── scripts/
-│   ├── mcp_server.py      # MCP server
-│   ├── index.py           # Indexing
-│   ├── search.py          # Search
-│   ├── session.py         # Session management
-│   ├── watcher.py         # File watcher
-│   └── schema.sql         # Database schema
+│   ├── config.py                  # 配置加载模块
+│   ├── embedding_client.py        # 通用嵌入客户端
+│   ├── mcp_server.py              # MCP 服务器
+│   ├── index.py                   # 索引
+│   ├── search.py                  # 搜索
+│   ├── session.py                 # 会话管理
+│   ├── watcher.py                 # 文件监视器
+│   └── schema.sql                 # 数据库架构
+├── .config/
+│   └── embedding.json             # 嵌入 API 配置
+├── embedding.example.ollama.json  # Ollama 配置示例
+├── embedding.example.openai.json  # OpenAI 配置示例
 ├── db/
-│   └── memory.db          # SQLite database
-└── .venv/                 # Python environment
+│   └── memory.db                  # SQLite 数据库
+└── .venv/                         # Python 环境
 ```
 
-## Bootstrap Files
+## 引导文件
 
-Customize these for your setup:
+根据你的设置自定义这些文件：
 
-| File | Purpose |
+| 文件 | 用途 |
 |------|---------|
-| `CLAUDE.md` | Agent instructions and memory guidelines |
-| `SOUL.md` | Personality, tone, communication style |
-| `USER.md` | Your info, preferences, technical context |
-| `TOOLS.md` | Tool usage guidance |
-| `MEMORY.md` | Long-term curated knowledge |
+| `CLAUDE.md` | AI 助手指令和记忆指南 |
+| `SOUL.md` | 个性、语气、沟通风格 |
+| `USER.md` | 你的信息、偏好、技术背景 |
+| `TOOLS.md` | 工具使用指导 |
+| `MEMORY.md` | 长期精选知识 |
 
-## How It Works
+## 工作原理
 
-1. **Chunking**: Markdown files are split into ~400 token chunks with 80 token overlap
-2. **Embedding**: Each chunk is embedded using `nomic-embed-text` via Ollama
-3. **Storage**: Chunks and embeddings stored in SQLite with FTS5 for keyword search
-4. **Search**: Hybrid scoring (70% cosine similarity + 30% BM25)
-5. **Retrieval**: Top results returned with file paths and line numbers
+1. **分块**：Markdown 文件被分割成约 400 个 token 的块，具有 80 个 token 的重叠
+2. **嵌入**：每个块通过配置的嵌入 API 进行向量化
+3. **存储**：块和嵌入存储在 SQLite 中，使用 FTS5 进行关键词搜索
+4. **搜索**：混合评分（70% 余弦相似度 + 30% BM25）
+5. **检索**：返回带有文件路径和行号的最佳结果
 
-## Configuration
+## 配置调整
 
-Edit `scripts/search.py` to adjust:
+### 搜索参数
+
+编辑 `scripts/search.py` 以调整：
 
 ```python
-VECTOR_WEIGHT = 0.7      # Weight for semantic similarity
-TEXT_WEIGHT = 0.3        # Weight for keyword matching
-DEFAULT_LIMIT = 6        # Default number of results
-MIN_SCORE = 0.25         # Minimum score threshold
+VECTOR_WEIGHT = 0.7      # 语义相似度权重
+TEXT_WEIGHT = 0.3        # 关键词匹配权重
+DEFAULT_LIMIT = 6        # 默认结果数量
+MIN_SCORE = 0.25         # 最低分数阈值
 ```
 
-## Troubleshooting
+### 嵌入 API 配置
 
-**Ollama not running:**
+编辑 `.config/embedding.json` 或运行 `python scripts/embedding_client.py` 测试配置：
+
 ```bash
-brew services start ollama
+python scripts/embedding_client.py "测试文本"
 ```
 
-**No search results:**
-- Lower `minScore` in search query
-- Check if files are indexed: `python scripts/session.py status`
-- Re-index: `python scripts/index.py --rebuild`
+## 故障排除
 
-**MCP tools not available:**
-- Restart Claude Code after configuring `.mcp.json`
-- Check paths in config are absolute and correct
+**嵌入 API 连接失败：**
+- 检查 `.config/embedding.json` 配置是否正确
+- 运行 `python scripts/embedding_client.py "测试"` 测试连接
+- 确认 API 服务正在运行（Ollama: `ollama list`）
 
-## Credits
+**没有搜索结果：**
+- 降低搜索查询中的 `minScore`
+- 检查文件是否已索引：`python scripts/session.py status`
+- 重新索引：`python scripts/index.py --rebuild`
 
-Inspired by [Clawdbot's memory architecture](https://manthanguptaa.in/posts/clawdbot_memory/) by Manthan Gupta.
+**MCP 工具不可用：**
+- 配置 `.mcp.json` 后重启 Claude Code
+- 检查配置中的路径是否为绝对路径且正确
+- 查看是否有错误日志
 
-## License
+**配置更改后索引失败：**
+- 如果更换了嵌入模型，需要重建整个索引：`python scripts/index.py --rebuild`
+- 不同模型的嵌入维度不同，无法混合使用
+
+## 从旧版本升级
+
+如果你之前使用的是硬编码 Ollama 版本：
+
+1. 更新代码后，如果继续使用 Ollama，无需额外配置
+2. 系统会自动使用默认的 Ollama 配置
+3. 如需切换到其他 API，创建 `.config/embedding.json` 并运行 `python scripts/index.py --rebuild`
+
+## 致谢
+
+受 Manthan Gupta 的 [Clawdbot 记忆架构](https://manthanguptaa.in/posts/clawdbot_memory/) 启发。
+
+## 许可证
 
 MIT

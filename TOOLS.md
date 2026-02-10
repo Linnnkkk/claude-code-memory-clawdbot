@@ -1,71 +1,71 @@
-# Tools
+# 工具
 
-This file provides guidance on using external tools effectively.
+此文件提供了有效使用外部工具的指导。
 
-## Memory Tools (MCP)
+## 记忆工具（MCP）
 
 ### memory_search
-Use for finding past context, decisions, or information.
+用于查找过去的上下文、决策或信息。
 ```json
-{"query": "database choice", "maxResults": 6, "minScore": 0.25}
+{"query": "数据库选择", "maxResults": 6, "minScore": 0.25}
 ```
-- Use natural language queries
-- Lower minScore (0.1-0.2) for broader results
-- Higher minScore (0.4+) for precise matches
+- 使用自然语言查询
+- 较低的 minScore（0.1-0.2）获得更广泛的结果
+- 较高的 minScore（0.4+）获得精确匹配
 
 ### memory_get
-Use after search to read full context from a file.
+在搜索后用于从文件中读取完整上下文。
 ```json
 {"path": "memory/2026-01-28.md", "from": 10, "lines": 30}
 ```
 
 ### memory_write
-Use to persist important information.
+用于持久化重要信息。
 ```json
-{"target": "longterm", "content": "## Decision\nChose PostgreSQL for..."}
+{"target": "longterm", "content": "## 决策\n选择了 PostgreSQL 用于..."}
 ```
-- `target: "longterm"` → MEMORY.md (important, persistent)
-- `target: "daily"` → memory/YYYY-MM-DD.md (session notes)
+- `target: "longterm"` → MEMORY.md（重要、持久）
+- `target: "daily"` → memory/YYYY-MM-DD.md（会话笔记）
 
 ### memory_index
-Trigger after manually editing memory files.
+在手动编辑记忆文件后触发。
 ```json
 {"rebuild": false}
 ```
 
-## CLI Tools (via Bash)
+## 命令行工具（通过 Bash）
 
-### Session Management
+### 会话管理
 ```bash
-python scripts/session.py status   # Check system health
-python scripts/session.py new      # Start new session section
-python scripts/session.py flush    # Save important context
-python scripts/session.py summary  # Recent activity
+python scripts/session.py status   # 检查系统健康状况
+python scripts/session.py new      # 开始新的会话部分
+python scripts/session.py flush    # 保存重要上下文
+python scripts/session.py summary  # 最近活动
 ```
 
-### File Watcher
+### 文件监视器
 ```bash
-python scripts/watcher.py          # Auto-index on file changes
-python scripts/watcher.py --daemon # Run in background
+python scripts/watcher.py          # 文件更改时自动索引
+python scripts/watcher.py --daemon # 在后台运行
 ```
 
-## When to Use What
+## 何时使用什么
 
-| Situation | Tool |
+| 情况 | 工具 |
 |-----------|------|
-| "What did we decide about X?" | memory_search |
-| User states a preference | memory_write (longterm) |
-| End of work session | memory_write (daily) |
-| Need full file content | memory_get |
-| After manual file edits | memory_index |
+| "我们关于 X 做出了什么决定？" | memory_search |
+| 用户说明偏好 | memory_write (longterm) |
+| 工作会话结束 | memory_write (daily) |
+| 需要完整文件内容 | memory_get |
+| 手动文件编辑后 | memory_index |
 
-## Tool Best Practices
+## 工具最佳实践
 
-1. **Search before asking** - Check memory before asking user for context they may have provided before
-2. **Write incrementally** - Don't wait until session end to write memories
-3. **Be specific in queries** - "postgres database decision" > "database"
-4. **Index after edits** - Always run memory_index after manually editing .md files
+1. **搜索后再询问** - 在向用户询问他们可能之前提供的上下文之前，先检查记忆
+2. **增量写入** - 不要等到会话结束才写入记忆
+3. **查询要具体** - "postgres 数据库决策" > "数据库"
+4. **编辑后索引** - 在手动编辑 .md 文件后始终运行 memory_index
 
 ---
 
-*Add guidance for other tools as they're integrated.*
+*添加其他工具的指导，当它们被集成时。*

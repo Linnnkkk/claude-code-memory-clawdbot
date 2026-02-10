@@ -1,145 +1,145 @@
-# Memory System
+# 记忆系统
 
-This project implements persistent memory inspired by Clawdbot. Memory persists across sessions via markdown files, vector embeddings, and semantic search.
+本项目实现了受 Clawdbot 启发的持久化记忆系统。记忆通过 Markdown 文件、向量嵌入和语义搜索跨会话持久化。
 
-## Session Protocol
+## 会话协议
 
-At the start of each session, read these bootstrap files:
-1. **SOUL.md** - Personality and communication style
-2. **USER.md** - User information and preferences
-3. **TOOLS.md** - Tool usage guidance
-4. **MEMORY.md** - Long-term curated knowledge
-5. **memory/YYYY-MM-DD.md** - Today's log (if exists)
+在每个会话开始时，阅读这些引导文件：
+1. **SOUL.md** - 个性和沟通风格
+2. **USER.md** - 用户信息和偏好
+3. **TOOLS.md** - 工具使用指导
+4. **MEMORY.md** - 长期精选知识
+5. **memory/YYYY-MM-DD.md** - 今天的日志（如果存在）
 
-## Quick Reference
+## 快速参考
 
-| Task | Tool/Command |
+| 任务 | 工具/命令 |
 |------|--------------|
-| Search memories | `memory_search` MCP tool |
-| Get specific content | `memory_get` MCP tool |
-| Write to memory | `memory_write` MCP tool |
-| Re-index files | `memory_index` MCP tool |
+| 搜索记忆 | `memory_search` MCP 工具 |
+| 获取特定内容 | `memory_get` MCP 工具 |
+| 写入记忆 | `memory_write` MCP 工具 |
+| 重新索引文件 | `memory_index` MCP 工具 |
 
-## Memory Architecture
+## 记忆架构
 
-### Bootstrap Files
+### 引导文件
 
-| File | Purpose |
+| 文件 | 用途 |
 |------|---------|
-| CLAUDE.md | Agent instructions (this file) |
-| SOUL.md | Personality and tone |
-| USER.md | User information |
-| TOOLS.md | Tool usage guidance |
-| MEMORY.md | Long-term curated knowledge |
+| CLAUDE.md | AI 助手指令（本文件） |
+| SOUL.md | 个性与语气 |
+| USER.md | 用户信息 |
+| TOOLS.md | 工具使用指导 |
+| MEMORY.md | 长期精选知识 |
 
-### Two-Layer Storage
+### 双层存储
 
-1. **MEMORY.md** - Long-term curated knowledge
-   - User preferences and decisions
-   - Important contacts and references
-   - Lessons learned
+1. **MEMORY.md** - 长期精选知识
+   - 用户偏好和决策
+   - 重要联系人和参考信息
+   - 学到的经验教训
 
-2. **memory/YYYY-MM-DD.md** - Daily logs
-   - Session notes and observations
-   - Conversation summaries
+2. **memory/YYYY-MM-DD.md** - 每日日志
+   - 会话笔记和观察
+   - 对话摘要
 
-### MCP Tools Available
+### 可用的 MCP 工具
 
-**memory_search** - Semantic + keyword search
+**memory_search** - 语义 + 关键词搜索
 ```json
-{"query": "what database did we choose", "maxResults": 6, "minScore": 0.25}
+{"query": "我们选择了什么数据库", "maxResults": 6, "minScore": 0.25}
 ```
 
-**memory_get** - Retrieve specific content
+**memory_get** - 检索特定内容
 ```json
 {"path": "memory/2026-01-28.md", "from": 10, "lines": 20}
 ```
 
-**memory_write** - Write to memory
+**memory_write** - 写入记忆
 ```json
-{"target": "daily", "content": "## Decision\nWe chose PostgreSQL for..."}
+{"target": "daily", "content": "## 决策\n我们选择 PostgreSQL 用于..."}
 ```
 
-**memory_index** - Trigger re-indexing
+**memory_index** - 触发重新索引
 ```json
 {"path": "memory/2026-01-28.md", "rebuild": false}
 ```
 
-## When to Use Memory
+## 何时使用记忆
 
-### Search memories when:
-- User asks about past decisions
-- Context from previous sessions is needed
-- Looking for specific information discussed before
+### 搜索记忆时：
+- 用户询问过去的决策
+- 需要之前会话的上下文
+- 查找之前讨论过的特定信息
 
-### Write to MEMORY.md when:
-- User states a preference
-- A significant decision is made
-- Important information is shared
-- A lesson is learned
+### 写入 MEMORY.md 时：
+- 用户说明偏好
+- 做出重要决策
+- 共享重要信息
+- 学到经验教训
 
-### Write to daily log when:
-- Noting work done during a session
-- Recording context for short-term use
-- Summarizing conversations
+### 写入每日日志时：
+- 记录会话期间完成的工作
+- 记录短期使用的上下文
+- 总结对话
 
-## Session Management (CLI)
+## 会话管理（命令行）
 
 ```bash
-# Check system and bootstrap files
+# 检查系统和引导文件
 python scripts/session.py status
 python scripts/session.py bootstrap
 
-# Session lifecycle
-python scripts/session.py new "Working on API"     # Start new section
-python scripts/session.py flush "Important note"   # Quick save to daily log
-python scripts/session.py end "Summary of work"    # End session with descriptive file
+# 会话生命周期
+python scripts/session.py new "正在开发 API"     # 开始新的部分
+python scripts/session.py flush "重要笔记"       # 快速保存到每日日志
+python scripts/session.py end "工作摘要"          # 使用描述性文件名结束会话
 
-# With custom slug
-python scripts/session.py end --slug "api-design" "Designed the REST API..."
+# 使用自定义 slug
+python scripts/session.py end --slug "api-design" "设计了 REST API..."
 
-# Other
-python scripts/session.py summary                  # Recent activity
+# 其他
+python scripts/session.py summary                  # 最近活动
 ```
 
-## File Structure
+## 文件结构
 
 ```
 memory/
-├── CLAUDE.md              # Agent instructions (this file)
-├── SOUL.md                # Personality and tone
-├── USER.md                # User information
-├── TOOLS.md               # Tool guidance
-├── MEMORY.md              # Long-term curated knowledge
-├── memory/                # Daily logs and session files
+├── CLAUDE.md              # AI 助手指令（本文件）
+├── SOUL.md                # 个性与语气
+├── USER.md                # 用户信息
+├── TOOLS.md               # 工具指导
+├── MEMORY.md              # 长期精选知识
+├── memory/                # 每日日志和会话文件
 │   ├── YYYY-MM-DD.md
 │   └── YYYY-MM-DD-HHMM-slug.md
 ├── scripts/
-│   ├── mcp_server.py      # MCP server (memory tools)
-│   ├── index.py           # Indexing script
-│   ├── search.py          # Search script
-│   ├── session.py         # Session management
-│   ├── watcher.py         # File watcher
-│   └── schema.sql         # Database schema
+│   ├── mcp_server.py      # MCP 服务器（记忆工具）
+│   ├── index.py           # 索引脚本
+│   ├── search.py          # 搜索脚本
+│   ├── session.py         # 会话管理
+│   ├── watcher.py         # 文件监视器
+│   └── schema.sql         # 数据库架构
 ├── db/
-│   └── memory.db          # SQLite with embeddings
-└── .venv/                 # Python environment
+│   └── memory.db          # SQLite 带嵌入
+└── .venv/                 # Python 环境
 ```
 
-## Technical Details
+## 技术细节
 
-- **Embeddings**: nomic-embed-text via Ollama (local, free)
-- **Storage**: SQLite with FTS5 for keyword search
-- **Hybrid search**: 70% vector similarity + 30% BM25 keyword
-- **Chunks**: ~400 tokens with 80 token overlap
-- **Min score**: 0.25 (configurable)
+- **嵌入**：通过 Ollama 使用 nomic-embed-text（本地、免费）
+- **存储**：SQLite 带 FTS5 用于关键词搜索
+- **混合搜索**：70% 向量相似度 + 30% BM25 关键词
+- **块**：约 400 个 token，80 个 token 重叠
+- **最低分数**：0.25（可配置）
 
-## Setup for New Projects
+## 新项目设置
 
-1. Copy `scripts/` folder and bootstrap files
-2. Create venv: `python -m venv .venv && .venv/bin/pip install watchdog`
-3. Create `memory/` directory
-4. Ensure Ollama running: `brew services start ollama`
-5. Pull model: `ollama pull nomic-embed-text`
-6. Add MCP server to `~/.config/claude-code/.mcp.json`
-7. Run initial index: `python scripts/index.py`
+1. 复制 `scripts/` 文件夹和引导文件
+2. 创建虚拟环境：`python -m venv .venv && .venv/bin/pip install watchdog`
+3. 创建 `memory/` 目录
+4. 确保 Ollama 正在运行：`brew services start ollama`
+5. 拉取模型：`ollama pull nomic-embed-text`
+6. 将 MCP 服务器添加到 `~/.config/claude-code/.mcp.json`
+7. 运行初始索引：`python scripts/index.py`
